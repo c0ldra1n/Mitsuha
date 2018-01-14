@@ -1,0 +1,9 @@
+Package: io.c0ldra1n.mitsuha-spotify
+Name: Mitsuha-Spotify
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: c0ldra1n
+Author: c0ldra1n
+Section: Tweaks

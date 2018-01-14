@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Mitsuha</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicEnabled</string>
+			<key>label</key>
+			<string>Enable on Music</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHSpotifyEnabled</string>
+			<key>label</key>
+			<string>Enable on Spotify</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Per-App Preferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Music</string>
+			<key>detail</key>
+			<string>MSHMusicPreferencesListController</string>
+			<key>icon</key>
+			<string>Music</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Spotify</string>
+			<key>detail</key>
+			<string>MSHSpotifyPreferencesListController</string>
+			<key>icon</key>
+			<string>Spotify</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Restart</string>
+			<key>footerText</key>
+			<string>Always restart Music/Spotify after making a change!</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>Restart Music App</string>
+			<key>action</key>
+			<string>restartMusic</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>Restart Spotify App</string>
+			<key>action</key>
+			<string>restartSpotify</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Credits</string>
+		</dict>
+		<dict>
+			<key>big</key>
+			<true/>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>height</key>
+			<string>56</string>
+			<key>label</key>
+			<string>c0ldra1n</string>
+			<key>user</key>
+			<string>0xc0ldra1n</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Mitsuha</string>
+</dict>
+</plist>

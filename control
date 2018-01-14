@@ -1,0 +1,11 @@
+Package: io.c0ldra1n.mitsuha-beta
+Name: Mitsuha (Beta)
+Depends: mobilesubstrate, ws.hbang.common
+Conflicts: io.c0ldra1n.mitsuha
+Version: 0.9.2~beta
+Architecture: iphoneos-arm
+Description: Jell-O wave effect for music app
+Maintainer: c0ldra1n
+Author: c0ldra1n
+Icon: https://repo.c0ldra1n.gq/public/icons/io.c0ldra1n.mitsuha-beta.png
+Section: Tweaks

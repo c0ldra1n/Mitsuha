@@ -1,0 +1,10 @@
+Package: io.c0ldra1n.mitsuha
+Name: Mitsuha
+Depends: mobilesubstrate, ws.hbang.common
+Conflicts: io.c0ldra1n.mitsuha-beta
+Version: 0.9.1-1
+Architecture: iphoneos-arm
+Description: Jell-O wave effect for Music & Spotify
+Maintainer: c0ldra1n
+Author: c0ldra1n
+Section: Tweaks

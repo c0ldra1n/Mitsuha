@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Gain &amp; Limiter</string>
+			<key>footerText</key>
+			<string>Setting Limiter to 0 will disable limiter</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>Gain</string>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicGain</string>
+			<key>default</key>
+			<integer>100</integer>
+			<key>placeholder</key>
+			<string>0</string>
+			<key>keyboard</key>
+			<string>numbers</string>
+			<key>isDecimalPad</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>Limiter</string>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicLimiter</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>placeholder</key>
+			<string>0</string>
+			<key>keyboard</key>
+			<string>numbers</string>
+			<key>isDecimalPad</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Appearance</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>Wave Offset</string>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicWaveOffset</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>placeholder</key>
+			<string>0</string>
+			<key>keyboard</key>
+			<string>numbers</string>
+			<key>isDecimalPad</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicNegateOffset</string>
+			<key>label</key>
+			<string>Negate Offset</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicEnableCircleArtwork</string>
+			<key>label</key>
+			<string>Use Circle Artwork</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Experimental</string>
+			<key>footerText</key>
+			<string>This is experimental. It may cause problems/crashes.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicEnableDynamicGain</string>
+			<key>label</key>
+			<string>Dynamic Gain</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>io.c0ldra1n.mitsuha-prefs</string>
+			<key>key</key>
+			<string>MSHMusicIgnoreColorFlow</string>
+			<key>label</key>
+			<string>Ignore ColorFlow</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Music</string>
+</dict>
+</plist>

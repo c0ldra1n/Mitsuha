@@ -1,0 +1,408 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		53702BAA1E5082E3002AD936 /* MSHJelloView.h in Sources */ = {isa = PBXBuildFile; fileRef = 53702BA81E5082D6002AD936 /* MSHJelloView.h */; };
+		53702BAB1E5082E6002AD936 /* MSHJelloView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53702BA91E5082D6002AD936 /* MSHJelloView.mm */; };
+		5388FEAD1E51E633003CC628 /* Tweak.h in Sources */ = {isa = PBXBuildFile; fileRef = 53DE413A1E483016006F009A /* Tweak.h */; };
+		53A952091EB470990057783C /* MSHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A952081EB470990057783C /* MSHHeaderView.m */; };
+		53B938741EB4762B00B23714 /* MSHMusicPreferencesListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B938731EB4762B00B23714 /* MSHMusicPreferencesListController.m */; };
+		53B938771EB4765700B23714 /* MSHSpotifyPreferencesListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B938761EB4765700B23714 /* MSHSpotifyPreferencesListController.m */; };
+		53DE41101E473B5A006F009A /* xctheos.h in Sources */ = {isa = PBXBuildFile; fileRef = 53DE410F1E473B39006F009A /* xctheos.h */; };
+		53DE41131E4742AF006F009A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 53DE41121E4742AF006F009A /* Makefile */; };
+		53DE41181E47437E006F009A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 53DE41151E47437E006F009A /* Makefile */; };
+		53DE411C1E4743EA006F009A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 53DE41191E4743EA006F009A /* Makefile */; };
+		53DE41201E4743F2006F009A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 53DE411D1E4743F2006F009A /* Makefile */; };
+		53DE412D1E474642006F009A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 53DE412A1E474642006F009A /* Makefile */; };
+		53DE412E1E474642006F009A /* MSHRootListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53DE412C1E474642006F009A /* MSHRootListController.m */; };
+		53DE41321E474851006F009A /* Tweak.h in Sources */ = {isa = PBXBuildFile; fileRef = 53DE41311E474836006F009A /* Tweak.h */; };
+		53DE41371E474887006F009A /* Tweak.xmi in Sources */ = {isa = PBXBuildFile; fileRef = 53DE411B1E4743EA006F009A /* Tweak.xmi */; };
+		53DE41381E474887006F009A /* Tweak.xmi in Sources */ = {isa = PBXBuildFile; fileRef = 53DE411F1E4743F2006F009A /* Tweak.xmi */; };
+		53DE41391E4748BE006F009A /* Tweak.xmi in Sources */ = {isa = PBXBuildFile; fileRef = 53DE41171E47437E006F009A /* Tweak.xmi */; };
+		53DE413C1E4842B3006F009A /* MSHUtils.h in Sources */ = {isa = PBXBuildFile; fileRef = 53DE413B1E4842A4006F009A /* MSHUtils.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		53DE40FA1E4739BF006F009A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		53282D561E5C15C800A9E6D1 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+		53702BA81E5082D6002AD936 /* MSHJelloView.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MSHJelloView.h; sourceTree = "<group>"; };
+		53702BA91E5082D6002AD936 /* MSHJelloView.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = MSHJelloView.mm; sourceTree = "<group>"; };
+		5388FEBC1E57FF4F003CC628 /* Tweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Tweak.h; path = mitsuhaspotify/Tweak.h; sourceTree = SOURCE_ROOT; };
+		53A952071EB470990057783C /* MSHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHHeaderView.h; path = mitsuhaprefs/MSHHeaderView.h; sourceTree = SOURCE_ROOT; };
+		53A952081EB470990057783C /* MSHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHHeaderView.m; path = mitsuhaprefs/MSHHeaderView.m; sourceTree = SOURCE_ROOT; };
+		53B938721EB4762B00B23714 /* MSHMusicPreferencesListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHMusicPreferencesListController.h; path = mitsuhaprefs/MSHMusicPreferencesListController.h; sourceTree = SOURCE_ROOT; };
+		53B938731EB4762B00B23714 /* MSHMusicPreferencesListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHMusicPreferencesListController.m; path = mitsuhaprefs/MSHMusicPreferencesListController.m; sourceTree = SOURCE_ROOT; };
+		53B938751EB4765700B23714 /* MSHSpotifyPreferencesListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHSpotifyPreferencesListController.h; path = mitsuhaprefs/MSHSpotifyPreferencesListController.h; sourceTree = SOURCE_ROOT; };
+		53B938761EB4765700B23714 /* MSHSpotifyPreferencesListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHSpotifyPreferencesListController.m; path = mitsuhaprefs/MSHSpotifyPreferencesListController.m; sourceTree = SOURCE_ROOT; };
+		53B938781EB4768E00B23714 /* Music.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Music.plist; path = mitsuhaprefs/Resources/Music.plist; sourceTree = SOURCE_ROOT; };
+		53B938791EB4768E00B23714 /* Spotify.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Spotify.plist; path = mitsuhaprefs/Resources/Spotify.plist; sourceTree = SOURCE_ROOT; };
+		53DE40FC1E4739BF006F009A /* libMitsuha.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMitsuha.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		53DE410F1E473B39006F009A /* xctheos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xctheos.h; sourceTree = "<group>"; };
+		53DE41121E4742AF006F009A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
+		53DE41141E47431E006F009A /* control.release */ = {isa = PBXFileReference; lastKnownFileType = text; path = control.release; sourceTree = "<group>"; };
+		53DE41151E47437E006F009A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = mitsuhamusic/Makefile; sourceTree = SOURCE_ROOT; };
+		53DE41161E47437E006F009A /* MitsuhaMusic.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = MitsuhaMusic.plist; path = mitsuhamusic/MitsuhaMusic.plist; sourceTree = SOURCE_ROOT; };
+		53DE41171E47437E006F009A /* Tweak.xmi */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Tweak.xmi; path = mitsuhamusic/Tweak.xmi; sourceTree = SOURCE_ROOT; };
+		53DE41191E4743EA006F009A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = mitsuhaspringboard/Makefile; sourceTree = SOURCE_ROOT; };
+		53DE411A1E4743EA006F009A /* MitsuhaSpringBoard.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = MitsuhaSpringBoard.plist; path = mitsuhaspringboard/MitsuhaSpringBoard.plist; sourceTree = SOURCE_ROOT; };
+		53DE411B1E4743EA006F009A /* Tweak.xmi */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Tweak.xmi; path = mitsuhaspringboard/Tweak.xmi; sourceTree = SOURCE_ROOT; };
+		53DE411D1E4743F2006F009A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = mitsuhaspotify/Makefile; sourceTree = SOURCE_ROOT; };
+		53DE411E1E4743F2006F009A /* MitsuhaSpotify.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = MitsuhaSpotify.plist; path = mitsuhaspotify/MitsuhaSpotify.plist; sourceTree = SOURCE_ROOT; };
+		53DE411F1E4743F2006F009A /* Tweak.xmi */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Tweak.xmi; path = mitsuhaspotify/Tweak.xmi; sourceTree = SOURCE_ROOT; };
+		53DE41291E474642006F009A /* entry.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = entry.plist; path = mitsuhaprefs/entry.plist; sourceTree = SOURCE_ROOT; };
+		53DE412A1E474642006F009A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = mitsuhaprefs/Makefile; sourceTree = SOURCE_ROOT; usesTabs = 1; };
+		53DE412B1E474642006F009A /* MSHRootListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHRootListController.h; path = mitsuhaprefs/MSHRootListController.h; sourceTree = SOURCE_ROOT; };
+		53DE412C1E474642006F009A /* MSHRootListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHRootListController.m; path = mitsuhaprefs/MSHRootListController.m; sourceTree = SOURCE_ROOT; };
+		53DE412F1E47464A006F009A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = mitsuhaprefs/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		53DE41301E47464A006F009A /* Root.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Root.plist; path = mitsuhaprefs/Resources/Root.plist; sourceTree = SOURCE_ROOT; };
+		53DE41311E474836006F009A /* Tweak.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = Tweak.h; path = mitsuhamusic/Tweak.h; sourceTree = SOURCE_ROOT; };
+		53DE413A1E483016006F009A /* Tweak.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; name = Tweak.h; path = mitsuhaspringboard/Tweak.h; sourceTree = SOURCE_ROOT; };
+		53DE413B1E4842A4006F009A /* MSHUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = MSHUtils.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		53DE40F91E4739BF006F009A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		53DE40F31E4739BF006F009A = {
+			isa = PBXGroup;
+			children = (
+				53DE41141E47431E006F009A /* control.release */,
+				53282D561E5C15C800A9E6D1 /* control */,
+				53DE41121E4742AF006F009A /* Makefile */,
+				53DE413B1E4842A4006F009A /* MSHUtils.h */,
+				53DE410F1E473B39006F009A /* xctheos.h */,
+				53702BA81E5082D6002AD936 /* MSHJelloView.h */,
+				53702BA91E5082D6002AD936 /* MSHJelloView.mm */,
+				53DE41091E473ACE006F009A /* Mitsuha (Music) */,
+				53DE40FE1E4739BF006F009A /* Mitsuha (SpringBoard) */,
+				53DE410A1E473AD4006F009A /* Mitsuha (Spotify) */,
+				53DE410B1E473ADA006F009A /* Preferences */,
+				53DE40FD1E4739BF006F009A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		53DE40FD1E4739BF006F009A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53DE40FC1E4739BF006F009A /* libMitsuha.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53DE40FE1E4739BF006F009A /* Mitsuha (SpringBoard) */ = {
+			isa = PBXGroup;
+			children = (
+				53DE41191E4743EA006F009A /* Makefile */,
+				53DE411A1E4743EA006F009A /* MitsuhaSpringBoard.plist */,
+				53DE413A1E483016006F009A /* Tweak.h */,
+				53DE411B1E4743EA006F009A /* Tweak.xmi */,
+			);
+			name = "Mitsuha (SpringBoard)";
+			path = Mitsuha;
+			sourceTree = "<group>";
+		};
+		53DE41091E473ACE006F009A /* Mitsuha (Music) */ = {
+			isa = PBXGroup;
+			children = (
+				53DE41151E47437E006F009A /* Makefile */,
+				53DE41161E47437E006F009A /* MitsuhaMusic.plist */,
+				53DE41311E474836006F009A /* Tweak.h */,
+				53DE41171E47437E006F009A /* Tweak.xmi */,
+			);
+			name = "Mitsuha (Music)";
+			path = Mitsuha;
+			sourceTree = "<group>";
+		};
+		53DE410A1E473AD4006F009A /* Mitsuha (Spotify) */ = {
+			isa = PBXGroup;
+			children = (
+				53DE411D1E4743F2006F009A /* Makefile */,
+				53DE411E1E4743F2006F009A /* MitsuhaSpotify.plist */,
+				5388FEBC1E57FF4F003CC628 /* Tweak.h */,
+				53DE411F1E4743F2006F009A /* Tweak.xmi */,
+			);
+			name = "Mitsuha (Spotify)";
+			path = Mitsuha;
+			sourceTree = "<group>";
+		};
+		53DE410B1E473ADA006F009A /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				53DE412F1E47464A006F009A /* Info.plist */,
+				53DE41291E474642006F009A /* entry.plist */,
+				53DE41301E47464A006F009A /* Root.plist */,
+				53B938781EB4768E00B23714 /* Music.plist */,
+				53B938791EB4768E00B23714 /* Spotify.plist */,
+				53DE412A1E474642006F009A /* Makefile */,
+				53A952071EB470990057783C /* MSHHeaderView.h */,
+				53A952081EB470990057783C /* MSHHeaderView.m */,
+				53DE412B1E474642006F009A /* MSHRootListController.h */,
+				53DE412C1E474642006F009A /* MSHRootListController.m */,
+				53B938721EB4762B00B23714 /* MSHMusicPreferencesListController.h */,
+				53B938731EB4762B00B23714 /* MSHMusicPreferencesListController.m */,
+				53B938751EB4765700B23714 /* MSHSpotifyPreferencesListController.h */,
+				53B938761EB4765700B23714 /* MSHSpotifyPreferencesListController.m */,
+			);
+			name = Preferences;
+			path = Mitsuha;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		53DE40FB1E4739BF006F009A /* Mitsuha */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 53DE41051E4739BF006F009A /* Build configuration list for PBXNativeTarget "Mitsuha" */;
+			buildPhases = (
+				53DE40F81E4739BF006F009A /* Sources */,
+				53DE40F91E4739BF006F009A /* Frameworks */,
+				53DE40FA1E4739BF006F009A /* CopyFiles */,
+				53DE41081E4739C9006F009A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Mitsuha;
+			productName = Mitsuha;
+			productReference = 53DE40FC1E4739BF006F009A /* libMitsuha.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		53DE40F41E4739BF006F009A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MSH;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = c0ldra1n;
+				TargetAttributes = {
+					53DE40FB1E4739BF006F009A = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = L53UBUP7SC;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 53DE40F71E4739BF006F009A /* Build configuration list for PBXProject "Mitsuha" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 53DE40F31E4739BF006F009A;
+			productRefGroup = 53DE40FD1E4739BF006F009A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				53DE40FB1E4739BF006F009A /* Mitsuha */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		53DE41081E4739C9006F009A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source ~/.bash_profile;\nmake package install DEBUG=1;";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		53DE40F81E4739BF006F009A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53B938771EB4765700B23714 /* MSHSpotifyPreferencesListController.m in Sources */,
+				53DE411C1E4743EA006F009A /* Makefile in Sources */,
+				53DE41181E47437E006F009A /* Makefile in Sources */,
+				53DE41131E4742AF006F009A /* Makefile in Sources */,
+				5388FEAD1E51E633003CC628 /* Tweak.h in Sources */,
+				53702BAB1E5082E6002AD936 /* MSHJelloView.mm in Sources */,
+				53702BAA1E5082E3002AD936 /* MSHJelloView.h in Sources */,
+				53DE41321E474851006F009A /* Tweak.h in Sources */,
+				53DE41381E474887006F009A /* Tweak.xmi in Sources */,
+				53DE41391E4748BE006F009A /* Tweak.xmi in Sources */,
+				53DE412E1E474642006F009A /* MSHRootListController.m in Sources */,
+				53DE413C1E4842B3006F009A /* MSHUtils.h in Sources */,
+				53DE41201E4743F2006F009A /* Makefile in Sources */,
+				53B938741EB4762B00B23714 /* MSHMusicPreferencesListController.m in Sources */,
+				53DE41371E474887006F009A /* Tweak.xmi in Sources */,
+				53DE412D1E474642006F009A /* Makefile in Sources */,
+				53A952091EB470990057783C /* MSHHeaderView.m in Sources */,
+				53DE41101E473B5A006F009A /* xctheos.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		53DE41031E4739BF006F009A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		53DE41041E4739BF006F009A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		53DE41061E4739BF006F009A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = L53UBUP7SC;
+				HEADER_SEARCH_PATHS = /opt/theos/include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		53DE41071E4739BF006F009A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = L53UBUP7SC;
+				HEADER_SEARCH_PATHS = /opt/theos/include;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		53DE40F71E4739BF006F009A /* Build configuration list for PBXProject "Mitsuha" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53DE41031E4739BF006F009A /* Debug */,
+				53DE41041E4739BF006F009A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		53DE41051E4739BF006F009A /* Build configuration list for PBXNativeTarget "Mitsuha" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53DE41061E4739BF006F009A /* Debug */,
+				53DE41071E4739BF006F009A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 53DE40F41E4739BF006F009A /* Project object */;
+}

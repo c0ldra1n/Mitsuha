@@ -1,0 +1,706 @@
+
+#import "Tweak.h"
+
+#import "../MSHUtils.h"
+
+#import <libobjcipc/libobjcipc.h>
+
+#define MHSidePadding 30
+
+#ifndef kCFCoreFoundationVersionNumber_iOS_10_0
+#define kCFCoreFoundationVersionNumber_iOS_10_0 1348.00
+#endif
+
+static MusicNowPlayingViewController *currentNowPlayingVC;
+
+#pragma mark MTAudioProcessingTap
+
+void init(MTAudioProcessingTapRef tap, void *clientInfo, void **tapStorageOut) {
+    NSLog(@"[Mitsuha]: Initialising the Audio Tap Processor");
+    *tapStorageOut = clientInfo;
+}
+
+void finalize(MTAudioProcessingTapRef tap) {
+    NSLog(@"[Mitsuha]: Finalizing the Audio Tap Processor");
+}
+
+void prepare(MTAudioProcessingTapRef tap, CMItemCount maxFrames, const AudioStreamBasicDescription *processingFormat) {
+    NSLog(@"[Mitsuha]: Preparing the Audio Tap Processor");
+}
+
+void unprepare(MTAudioProcessingTapRef tap) {
+    NSLog(@"[Mitsuha]: Unpreparing the Audio Tap Processor");
+}
+
+void logAudioBufferList(AudioBufferList *ABL){
+    NSLog(@"<AudioBufferList>: %p\nnb:%d\nnc:%d\nsp:%f", ABL, ABL->mNumberBuffers, (unsigned int)ABL->mBuffers[0].mNumberChannels, ((float *)(ABL->mBuffers[0].mData))[5]);
+}
+
+void process(MTAudioProcessingTapRef tap, CMItemCount numberFrames,
+             MTAudioProcessingTapFlags flags, AudioBufferList *bufferListInOut,
+             CMItemCount *numberFramesOut, MTAudioProcessingTapFlags *flagsOut) {
+    
+    OSStatus err = MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut,
+                                                      flagsOut, NULL, numberFramesOut);
+    
+    if (err) {
+        NSLog(@"[Mitsuha]: Something went wrong while processing audio!");
+    }
+    
+    
+    MusicNowPlayingViewController *nowplayingVC = (__bridge MusicNowPlayingViewController *) MTAudioProcessingTapGetStorage(tap);
+    
+    if(nowplayingVC.shouldSendUpdateMessage){
+        
+        float *data = (float *)(*bufferListInOut).mBuffers[0].mData;
+        
+        int dataByteSize = (*bufferListInOut).mBuffers[0].mDataByteSize;
+        
+        [nowplayingVC.mitsuhaJelloView updateBuffer:data withLength:dataByteSize/sizeof(float)];
+        
+        /*
+        
+        NSError *error;
+        
+        if(!server){
+            
+            server = [[GDUnixSocketServer alloc] initWithSocketPath:SKPath];
+            
+            [server listenWithError:&error];
+            if (error) {
+                NSLog(@"[Mitsuha-Music]: Error while startup: %@", error);
+            }
+            
+            NSLog(@"[Mitsuha-Music]: Using clientID: %@", clientID);
+
+        }
+        
+        [server sendData:[NSData dataWithBytes:data length:dataByteSize] toClientWithID:clientID error:&error];
+        
+        if (error) {
+            NSLog(@"[Mitsuha-Music]: Error: %@", error);
+        }
+        */
+    }
+    
+}
+
+
+GROUP(iOS9andBelow)
+
+
+HOOK(MusicArtworkView)
+
+static CGFloat originalCenterY = 0;
+
+-(void)setBackgroundColor:(UIColor *)backgroundColor{
+    
+    if(MSHColorFlowInstalled && MSHColorFlowMusicEnabled){
+        if(self.superview == currentNowPlayingVC.currentItemViewController.view){
+            ORIG([UIColor clearColor]);
+            return;
+        }
+    }
+    
+    ORIG();
+}
+
+-(void)layoutSubviews{
+    
+    ORIG();
+    
+    if(!MSHCustomCoverInstalled){
+        
+        if(self.superview == currentNowPlayingVC.currentItemViewController.view){
+            
+            if(currentNowPlayingVC.mitsuhaJelloView.config.enableCircleArtwork){
+                
+                self.layer.cornerRadius = CGRectGetWidth(self.frame)/2.0;
+                self.layer.masksToBounds = true;
+                
+            }else{
+                
+                CGPoint center = self.center;
+                
+                if(originalCenterY == 0){
+                    originalCenterY = center.y;
+                }
+                
+                self.center = CGPointMake(center.x, originalCenterY * 0.9);
+                
+            }
+            
+            self.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        }
+    }
+    
+}
+
+END()
+
+
+
+HOOK(MPAVController)
+
+-(void)beginPlayback{
+    ORIG();
+    [self configureMitsuhaFilter];
+}
+
+-(void)beginOrTogglePlayback{
+    ORIG();
+    currentNowPlayingVC.shouldSendUpdateMessage = true;
+}
+
+-(void)play{
+    ORIG();
+    currentNowPlayingVC.shouldSendUpdateMessage = true;
+}
+
+-(void)_itemWillChange:(id)arg1{
+    currentNowPlayingVC.shouldSendUpdateMessage = false;
+    ORIG();
+}
+
+-(void)_itemDidChange:(id)arg1{
+    [self configureMitsuhaFilter];
+    ORIG();
+}
+
+-(void)_tracksDidChange:(id)arg1{
+    [self configureMitsuhaFilter];
+    ORIG();
+}
+
+NEW()
+-(void)configureMitsuhaFilter{
+    
+    [currentNowPlayingVC setShouldSendUpdateMessage:false];
+    
+    NSLog(@"[Mitsuha]: Configuring Mitsuha Filter...");
+    
+    MPQueuePlayer *queuePlayer = self.avPlayer;
+    
+    AVMutableAudioMixInputParameters *inputParams = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:queuePlayer.currentItem.tracks.firstObject.assetTrack];
+    
+    // Create a processing tap for the input parameters
+    MTAudioProcessingTapCallbacks callbacks;
+    callbacks.version = kMTAudioProcessingTapCallbacksVersion_0;
+    callbacks.clientInfo = (__bridge void *)(currentNowPlayingVC);
+    
+    callbacks.init = init;
+    callbacks.prepare = prepare;
+    callbacks.process = process;
+    callbacks.unprepare = unprepare;
+    callbacks.finalize = finalize;
+    
+    MTAudioProcessingTapRef tap;
+    // The create function makes a copy of our callbacks struct
+    OSStatus err = MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks,
+                                              kMTAudioProcessingTapCreationFlag_PostEffects, &tap);
+    if (err || !tap) {
+        NSLog(@"[Mitsuha]: Unable to create the Audio Processing Tap");
+        return;
+    }
+    
+    // Assign the tap to the input parameters
+    inputParams.audioTapProcessor = tap;
+    
+    // Create a new AVAudioMix and assign it to our AVPlayerItem
+    
+    AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
+    
+    audioMix.inputParameters = @[inputParams];
+    
+    queuePlayer.currentItem.audioMix = audioMix;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.75 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        currentNowPlayingVC.shouldSendUpdateMessage = true;
+    });
+    
+    [currentNowPlayingVC applyCustomLayout];
+    
+}
+
+
+END()
+
+
+
+HOOK(MusicNowPlayingViewController)
+
+-(void)viewDidLoad{
+    
+    ORIG();
+    
+    currentNowPlayingVC = self;
+    
+    MSHJelloViewConfig *config = [MSHJelloViewConfig loadConfigForApplication:@"Music"];
+    
+    float offset = config.waveOffset;
+    
+    CGFloat height = CGRectGetHeight(self.view.bounds) - offset;
+    
+    self.mitsuhaJelloView = [[MSHJelloView alloc] initWithFrame:CGRectMake(0, offset, self.view.bounds.size.width, height) andConfig:config];
+    
+    self.blurgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    
+    self.blurgroundView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    [self.vibrantEffectView.contentView addSubview:self.mitsuhaJelloView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(colorizeUI:)
+                                                 name:@"ColorFlowMusicAppColorizationNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateVolume:)
+                                                 name:@"AVSystemController_SystemVolumeDidChangeNotification"
+                                               object:nil];
+}
+
+-(void)viewDidLayoutSubviews{
+    
+    ORIG();
+    
+    self.playbackProgressSliderView.frame = CGRectMake(MHSidePadding, self.playbackProgressSliderView.frame.origin.y, self.playbackProgressSliderView.frame.size.width - (2*MHSidePadding), self.playbackProgressSliderView.frame.size.height);
+    
+    [self applyCustomLayout];
+    
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    self.mitsuhaJelloView.center = CGPointMake(self.mitsuhaJelloView.center.x, self.mitsuhaJelloView.frame.size.height + self.mitsuhaJelloView.config.waveOffset);
+    
+    ORIG();
+    
+    if(![[GET_CLASS(MusicAVPlayer) sharedAVPlayer] avPlayer].currentItem.audioMix || [[GET_CLASS(MusicAVPlayer) sharedAVPlayer] avPlayer].currentItem.audioMix.inputParameters.count == 0){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [[GET_CLASS(MusicAVPlayer) sharedAVPlayer] configureMitsuhaFilter];
+        });
+    }
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    ORIG();
+    
+    currentNowPlayingVC = self;
+    
+    self.shouldSendUpdateMessage = true;
+    
+    [self applyCustomLayout];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:3.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        self.mitsuhaJelloView.center = CGPointMake(self.mitsuhaJelloView.center.x, self.mitsuhaJelloView.frame.size.height/2 + self.mitsuhaJelloView.config.waveOffset);
+        
+    } completion:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    ORIG();
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:3.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        self.mitsuhaJelloView.center = CGPointMake(self.mitsuhaJelloView.center.x, self.mitsuhaJelloView.frame.size.height + self.mitsuhaJelloView.config.waveOffset);
+        
+    } completion:nil];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    ORIG();
+    self.shouldSendUpdateMessage = false;
+}
+
+-(void)_updateNowPlayingInfo{
+    
+    ORIG();
+    
+    self.blurgroundView.image = [self.currentItemViewController artworkImage];
+    
+}
+
+
+#pragma mark Custom Methods
+
+NEW()
+-(void)applyCustomLayout{
+    
+    if([self.statusBarLegibilityGradient respondsToSelector:@selector(removeFromSuperview)]){
+        [self.statusBarLegibilityGradient removeFromSuperview];
+    }
+    if([self.statusBarLegibilityGradient respondsToSelector:@selector(removeFromSuperlayer)]){
+        [(CAGradientLayer *)self.statusBarLegibilityGradient removeFromSuperlayer];
+    }
+    
+    self.vibrantEffectView.vibrancyEnabled = false;
+    
+    [self.vibrantEffectView.contentView sendSubviewToBack:self.mitsuhaJelloView];
+    
+    if(![[self.backgroundView subviews] containsObject:self.blurgroundView]){
+        
+        self.blurgroundView.frame = self.backgroundView.bounds;
+        
+        [self.backgroundView addSubview:self.blurgroundView];
+        
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        
+        [self.blurgroundView addSubview:effectView];
+        
+        effectView.frame = self.blurgroundView.bounds;
+        
+    }
+    
+    self.blurgroundView.frame = self.backgroundView.bounds;
+    self.blurgroundView.subviews.firstObject.frame = self.blurgroundView.bounds;
+    [self.backgroundView bringSubviewToFront:self.blurgroundView];
+    
+    for(UIView *subview in self.vibrantEffectView.subviews){
+        if([subview isKindOfClass:[GET_CLASS(MPUPinningView) class]] && subview != self.vibrantEffectView.maskedView){
+            [subview removeFromSuperview];
+        }
+    }
+    
+}
+
+NEW()
+- (void)colorizeUI:(NSNotification *)notification {
+    
+    if(!self.mitsuhaJelloView.config.ignoreColorFlow){
+        
+        NSDictionary *userInfo = [notification userInfo];
+        BOOL isBackgroundDark = [userInfo[@"IsBackgroundDark"] boolValue];
+        
+        if(self.blurgroundView.subviews.count > 0){
+            
+            UIVisualEffectView *effectView = (UIVisualEffectView *)self.blurgroundView.subviews[0];
+            
+            effectView.effect = [UIBlurEffect effectWithStyle:(isBackgroundDark ? UIBlurEffectStyleLight : UIBlurEffectStyleDark)];
+            
+        }
+        
+        UIColor *backgroundColor = [userInfo[@"BackgroundColor"] colorWithAlphaComponent:0.5];
+        
+        [self.mitsuhaJelloView updateWaveColor:backgroundColor subwaveColor:backgroundColor];
+        
+    }
+    
+}
+
+NEW()
+-(void)updateVolume:(NSNotification *)notification{
+    
+    if(self.mitsuhaJelloView.config.enableDynamicGain){
+        
+        float volume = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+        
+        NSLog(@"[Mitsuha]: updateVolume: %lf", volume);
+        
+        self.mitsuhaJelloView.config.gain = pow(volume*15, 2);
+    }
+}
+
+#pragma mark Custom Properties
+
+NEW()
+-(void)setShouldSendUpdateMessage:(BOOL)shouldSendUpdateMessage{
+    objc_setAssociatedObject(self, @selector(shouldSendUpdateMessage), [NSNumber numberWithBool:shouldSendUpdateMessage], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(BOOL)shouldSendUpdateMessage{
+    return [(NSNumber *)objc_getAssociatedObject(self, @selector(shouldSendUpdateMessage)) boolValue];
+}
+
+NEW()
+-(void)setMitsuhaJelloView:(MSHJelloView *)mitsuhaJelloView{
+    objc_setAssociatedObject(self, @selector(mitsuhaJelloView), mitsuhaJelloView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(MSHJelloView *)mitsuhaJelloView{
+    return objc_getAssociatedObject(self, @selector(mitsuhaJelloView));
+}
+
+
+NEW()
+-(void)setBlurgroundView:(UIImageView *)blurgroundView{
+    objc_setAssociatedObject(self, @selector(blurgroundView), blurgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(UIImageView *)blurgroundView{
+    return objc_getAssociatedObject(self, @selector(blurgroundView));
+}
+
+END()
+
+
+HOOK(MusicUpNextViewController)
+
+-(void)viewWillAppear:(BOOL)animated{
+    ORIG();
+    [self.navigationController.view setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.75]];
+}
+
+-(void)_dismissUpNext{
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        self.navigationController.view.alpha = 0.0;
+        
+    } completion:^(BOOL finished){
+        
+        ORIG();
+        
+    }];
+    
+}
+
+END()
+
+
+END_GROUP()
+
+GROUP(iOS10)
+
+HOOK(MusicNowPlayingViewController)
+
+-(void)viewDidLoad{
+    
+    ORIG();
+    
+    currentNowPlayingVC = self;
+    
+    MSHJelloViewConfig *config = [MSHJelloViewConfig loadConfigForApplication:@"Music"];
+    
+    float offset = config.waveOffset;
+    
+    CGFloat height = CGRectGetHeight([self view].bounds) - offset;
+    
+    [self setMitsuhaJelloView:[[MSHJelloView alloc] initWithFrame:CGRectMake(0, offset, [self view].bounds.size.width, height) andConfig:config]];
+    
+//    self.blurgroundView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    
+//    self.blurgroundView.contentMode = UIViewContentModeScaleAspectFill;
+    
+//    [self.vibrantEffectView.contentView addSubview:self.mitsuhaJelloView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(colorizeUI:)
+                                                 name:@"ColorFlowMusicAppColorizationNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateVolume:)
+                                                 name:@"AVSystemController_SystemVolumeDidChangeNotification"
+                                               object:nil];
+}
+
+-(void)viewDidLayoutSubviews{
+    
+    ORIG();
+    
+//    self.playbackProgressSliderView.frame = CGRectMake(MHSidePadding, self.playbackProgressSliderView.frame.origin.y, self.playbackProgressSliderView.frame.size.width - (2*MHSidePadding), self.playbackProgressSliderView.frame.size.height);
+    
+    [self applyCustomLayout];
+    
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self mitsuhaJelloView].center = CGPointMake([self mitsuhaJelloView].center.x, [self mitsuhaJelloView].frame.size.height + [self mitsuhaJelloView].config.waveOffset);
+    
+    ORIG();
+    
+    [[GET_CLASS(MusicAVPlayer) sharedAVPlayer] configureMitsuhaFilter];
+    
+    /*if(![[GET_CLASS(MusicAVPlayer) sharedAVPlayer] avPlayer].currentItem.audioMix || [[GET_CLASS(MusicAVPlayer) sharedAVPlayer] avPlayer].currentItem.audioMix.inputParameters.count == 0){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.25 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [[GET_CLASS(MusicAVPlayer) sharedAVPlayer] configureMitsuhaFilter];
+        });
+    }*/
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    ORIG();
+    
+    currentNowPlayingVC = self;
+    
+    [self setShouldSendUpdateMessage:true];
+    
+    [self applyCustomLayout];
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:3.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        [self mitsuhaJelloView].center = CGPointMake([self mitsuhaJelloView].center.x, [self mitsuhaJelloView].frame.size.height/2 + [self mitsuhaJelloView].config.waveOffset);
+        
+    } completion:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    ORIG();
+    
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:3.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
+        [self mitsuhaJelloView].center = CGPointMake([self mitsuhaJelloView].center.x, [self mitsuhaJelloView].frame.size.height + [self mitsuhaJelloView].config.waveOffset);
+        
+    } completion:nil];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    ORIG();
+    [self setShouldSendUpdateMessage:false];
+}
+
+-(void)_updateNowPlayingInfo{
+    
+    ORIG();
+    
+//    self.blurgroundView.image = [self.currentItemViewController artworkImage];
+    
+}
+
+
+#pragma mark Custom Methods
+
+NEW()
+-(void)applyCustomLayout{
+    /*
+    if([self.statusBarLegibilityGradient respondsToSelector:@selector(removeFromSuperview)]){
+        [self.statusBarLegibilityGradient removeFromSuperview];
+    }
+    if([self.statusBarLegibilityGradient respondsToSelector:@selector(removeFromSuperlayer)]){
+        [(CAGradientLayer *)self.statusBarLegibilityGradient removeFromSuperlayer];
+    }
+    
+    self.vibrantEffectView.vibrancyEnabled = false;
+    
+    [self.vibrantEffectView.contentView sendSubviewToBack:self.mitsuhaJelloView];
+    
+    if(![[self.backgroundView subviews] containsObject:self.blurgroundView]){
+        
+        self.blurgroundView.frame = self.backgroundView.bounds;
+        
+        [self.backgroundView addSubview:self.blurgroundView];
+        
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+        
+        [self.blurgroundView addSubview:effectView];
+        
+        effectView.frame = self.blurgroundView.bounds;
+        
+    }
+    
+    self.blurgroundView.frame = self.backgroundView.bounds;
+    self.blurgroundView.subviews.firstObject.frame = self.blurgroundView.bounds;
+    [self.backgroundView bringSubviewToFront:self.blurgroundView];
+    
+    for(UIView *subview in self.vibrantEffectView.subviews){
+        if([subview isKindOfClass:[GET_CLASS(MPUPinningView) class]] && subview != self.vibrantEffectView.maskedView){
+            [subview removeFromSuperview];
+        }
+    }*/
+    
+}
+/*
+NEW()
+- (void)colorizeUI:(NSNotification *)notification {
+    
+    if(!self.mitsuhaJelloView.config.ignoreColorFlow){
+        
+        NSDictionary *userInfo = [notification userInfo];
+        BOOL isBackgroundDark = [userInfo[@"IsBackgroundDark"] boolValue];
+        
+        if(self.blurgroundView.subviews.count > 0){
+            
+            UIVisualEffectView *effectView = (UIVisualEffectView *)self.blurgroundView.subviews[0];
+            
+            effectView.effect = [UIBlurEffect effectWithStyle:(isBackgroundDark ? UIBlurEffectStyleLight : UIBlurEffectStyleDark)];
+            
+        }
+        
+        UIColor *backgroundColor = [userInfo[@"BackgroundColor"] colorWithAlphaComponent:0.5];
+        
+        [self.mitsuhaJelloView updateWaveColor:backgroundColor subwaveColor:backgroundColor];
+        
+    }
+    
+}
+
+NEW()
+-(void)updateVolume:(NSNotification *)notification{
+    
+    if(self.mitsuhaJelloView.config.enableDynamicGain){
+        
+        float volume = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+        
+        NSLog(@"[Mitsuha]: updateVolume: %lf", volume);
+        
+        self.mitsuhaJelloView.config.gain = pow(volume*15, 2);
+    }
+}
+*/
+#pragma mark Custom Properties
+
+NEW()
+-(void)setShouldSendUpdateMessage:(BOOL)shouldSendUpdateMessage{
+    objc_setAssociatedObject(self, @selector(shouldSendUpdateMessage), [NSNumber numberWithBool:shouldSendUpdateMessage], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(BOOL)shouldSendUpdateMessage{
+    return [(NSNumber *)objc_getAssociatedObject(self, @selector(shouldSendUpdateMessage)) boolValue];
+}
+
+NEW()
+-(void)setMitsuhaJelloView:(MSHJelloView *)mitsuhaJelloView{
+    objc_setAssociatedObject(self, @selector(mitsuhaJelloView), mitsuhaJelloView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(MSHJelloView *)mitsuhaJelloView{
+    return objc_getAssociatedObject(self, @selector(mitsuhaJelloView));
+}
+
+
+NEW()
+-(void)setBlurgroundView:(UIImageView *)blurgroundView{
+    objc_setAssociatedObject(self, @selector(blurgroundView), blurgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+NEW()
+-(UIImageView *)blurgroundView{
+    return objc_getAssociatedObject(self, @selector(blurgroundView));
+}
+
+END()
+
+
+END_GROUP()
+
+CTOR(){
+    
+    if([MSHJelloViewConfig loadConfigForApplication:@"Music"].enabled){
+        if (!(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_10_0)) {
+            INIT(iOS9andBelow);
+        }else{
+            Class MusicNPVCClass = objc_getClass("Music.NowPlayingViewController");
+            INIT(iOS10, MusicNowPlayingViewController=MusicNPVCClass);
+        }
+    }
+    
+}
+
